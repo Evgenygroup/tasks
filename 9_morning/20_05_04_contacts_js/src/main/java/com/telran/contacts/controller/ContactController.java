@@ -17,37 +17,32 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-//    @GetMapping("/contact")
-//    public String contactForm(Model model) {
-//        model.addAttribute("contact", new Contact());
-//        return "contact-form";
-//    }
-
     @GetMapping("/contact")
     @ResponseBody
+    @CrossOrigin()
     public List<Contact> contactForm() {
         return contactService.getAll();
     }
 
-//    @PostMapping("/contact")
-//    public String addContact(@RequestBody Contact contact) {
-//        if (contact.getId() == 0)
-//            contactService.add(contact);
-//        else
-//            contactService.edit(contact);
-//        return "redirect:/";
-//    }
-
     @PostMapping("/contact")
     @ResponseBody
+    @CrossOrigin()
     public void addContact(@RequestBody Contact contact) {
         contactService.add(contact);
     }
 
     @PutMapping("/contact")
     @ResponseBody
+    @CrossOrigin
     public void editContact(@RequestBody Contact contact) {
         contactService.edit(contact);
+    }
+
+    @DeleteMapping("/contact/{id}")
+    @ResponseBody
+    @CrossOrigin
+    public void removeContact(@PathVariable int id) {
+        contactService.remove(id);
     }
 
     @GetMapping("/")
@@ -55,36 +50,9 @@ public class ContactController {
         return "forward:/contacts";
     }
 
-    @GetMapping("/contact/{id}")
-    public String getContact(@PathVariable int id, Model model) {
-        Contact contact = contactService.get(id);
-        model.addAttribute("contact", contact);
-        return "contact";
-    }
-
     @GetMapping("/contacts")
-    public String getContacts(Model model) {
-        List<Contact> contacts = contactService.getAll();
-        model.addAttribute("contacts", contacts);
+    public String getContacts() {
         return "contacts";
     }
 
-    @GetMapping("/contact/edit/{id}")
-    public String editContact(@PathVariable int id, Model model) {
-        Contact contact = contactService.get(id);
-        model.addAttribute("contact", contact);
-        return "contact-form";
-    }
-
-//    @GetMapping("/contact/remove/{id}")
-//    public String removeContact(@PathVariable int id) {
-//        contactService.remove(id);
-//        return "redirect:/";
-//    }
-
-    @DeleteMapping("/contact/{id}")
-    @ResponseBody
-    public void removeContact(@PathVariable int id) {
-        contactService.remove(id);
-    }
 }
